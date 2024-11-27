@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import "../../App.css";
+import { NewGame } from "../NewGame/NewGame";
 import { Overlay } from "../Overlay/Overlay";
 import { Tile } from "../Tile/Tile";
+import { Winner } from "../Winner/Winner";
 import "./Board.css";
 
 export function Board() {
@@ -53,6 +55,12 @@ export function Board() {
     }
   };
 
+  const reset = () => {
+    setNumbers(shuffle());
+  };
+
+  useEffect(reset, []);
+
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
@@ -65,7 +73,9 @@ export function Board() {
         {numbers.map((x, index) => (
           <Tile key={index} number={x} moveTile={moveTile} />
         ))}
+        <Winner numbers={numbers} reset={reset} />
       </div>
+      <NewGame reset={reset} />
     </div>
   );
 }
